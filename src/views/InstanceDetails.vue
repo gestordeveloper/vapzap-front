@@ -209,7 +209,7 @@ onMounted(() => {
           <div class="lg:col-span-1 space-y-8">
              <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
                 <div class="px-6 py-5 border-b border-gray-200 bg-gray-50/50">
-                   <h3 class="text-lg font-semibold text-gray-900">Conexão Bluetooth</h3>
+                   <h3 class="text-lg font-semibold text-gray-900">Conexão Vapzap</h3>
                 </div>
                 <div class="p-6 text-center">
                    <div v-if="qrCode" class="flex justify-center mb-6">
