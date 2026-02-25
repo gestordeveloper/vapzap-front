@@ -59,6 +59,17 @@ const sendAudioCode = `curl -X POST ${import.meta.env.VITE_API_URL}/instance/sen
   "url": "https://exemplo.com/audio.mp3"
 }'`;
 
+const sendDocumentCode = `curl -X POST ${import.meta.env.VITE_API_URL}/instance/sendDocument/NOME_DA_INSTANCIA \\
+-H "Authorization: Bearer SEU_TOKEN_JWT" \\
+-H "Content-Type: application/json" \\
+-d '{
+  "number": "5511999999999",
+  "url": "https://exemplo.com/tabela.pdf",
+  "mimetype": "application/pdf",
+  "fileName": "Planilha Anual.pdf",
+  "caption": "Segue o documento solicitado! (Opcional)"
+}'`;
+
 const webhookPayloadCode = `{
   "event": "messages.upsert",
   "instance": "NOME_DA_INSTANCIA",
@@ -153,12 +164,7 @@ const groupLeaveCode = `curl -X POST ${import.meta.env.VITE_API_URL}/group/leave
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
           <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" @click="router.push('/dashboard')">
-            <div class="w-8 h-8 bg-whatsapp rounded-lg flex items-center justify-center">
-              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-              </svg>
-            </div>
-            <span class="text-xl font-bold text-gray-900 tracking-tight">VapZap</span>
+            <img src="/logo.svg" alt="VapZap Logo" class="h-8 w-auto" />
           </div>
           <div class="flex items-center gap-6">
              <!-- Navigation Links -->
@@ -300,6 +306,50 @@ const groupLeaveCode = `curl -X POST ${import.meta.env.VITE_API_URL}/group/leave
                </div>
                <div class="p-4 overflow-x-auto text-sm text-gray-300 font-mono whitespace-pre">
 {{ sendAudioCode }}
+               </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Endpoint: Send Document -->
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+          <div class="px-6 py-5 border-b border-gray-200 bg-gray-50/50 flex items-center justify-between">
+             <div class="flex items-center gap-3">
+               <span class="bg-blue-100 text-blue-700 font-mono text-xs font-bold px-2.5 py-1 rounded">POST</span>
+               <h3 class="text-lg font-semibold text-gray-900">Enviar Documento (URL)</h3>
+             </div>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600 mb-4">Manda arquivos genéricos (PDF, Word, Excel, ZIP) a partir de um link da internet para o usuário. Você controla o nome e o tipo mime real do arquivo original na plataforma.</p>
+            <div class="bg-gray-900 rounded-xl overflow-hidden shadow-inner">
+               <div class="flex items-center justify-between px-4 py-2 bg-gray-800/50 border-b border-gray-700/50">
+                  <span class="text-xs text-gray-400 font-mono">cURL / JSON</span>
+                  <button id="btn-copy-document" @click="copyToClipboard(sendDocumentCode, 'btn-copy-document')" class="text-xs font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 px-2.5 py-1.5 rounded transition-all">Copiar Código</button>
+               </div>
+               <div class="p-4 overflow-x-auto text-sm text-gray-300 font-mono whitespace-pre">
+{{ sendDocumentCode }}
+               </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Endpoint: Send Document -->
+        <section class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+          <div class="px-6 py-5 border-b border-gray-200 bg-gray-50/50 flex items-center justify-between">
+             <div class="flex items-center gap-3">
+               <span class="bg-blue-100 text-blue-700 font-mono text-xs font-bold px-2.5 py-1 rounded">POST</span>
+               <h3 class="text-lg font-semibold text-gray-900">Enviar Documento (URL)</h3>
+             </div>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600 mb-4">Manda arquivos genéricos (PDF, Word, Excel, ZIP) a partir de um link da internet para o usuário. Você controla o nome e o tipo mime real do arquivo original na plataforma.</p>
+            <div class="bg-gray-900 rounded-xl overflow-hidden shadow-inner">
+               <div class="flex items-center justify-between px-4 py-2 bg-gray-800/50 border-b border-gray-700/50">
+                  <span class="text-xs text-gray-400 font-mono">cURL / JSON</span>
+                  <button id="btn-copy-document" @click="copyToClipboard(sendDocumentCode, 'btn-copy-document')" class="text-xs font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 px-2.5 py-1.5 rounded transition-all">Copiar Código</button>
+               </div>
+               <div class="p-4 overflow-x-auto text-sm text-gray-300 font-mono whitespace-pre">
+{{ sendDocumentCode }}
                </div>
             </div>
           </div>

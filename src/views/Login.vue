@@ -36,11 +36,7 @@ const handleLogin = async () => {
 <template>
   <div class="flex min-h-[calc(100vh-80px-150px)] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm text-center">
-      <div class="mx-auto w-12 h-12 bg-whatsapp rounded-xl flex items-center justify-center shadow-lg shadow-whatsapp/30 mb-6">
-        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-        </svg>
-      </div>
+      <img src="/logo.svg" alt="VapZap Logo" class="mx-auto h-16 w-auto mb-6" />
       <h2 class="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Acesse sua conta</h2>
     </div>
 
