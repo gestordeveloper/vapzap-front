@@ -24,6 +24,7 @@ const isConnecting = ref(false);
 // Edit state
 const newName = ref('');
 const webhookUrl = ref('');
+const webhookEvents = ref([]);
 const isSaving = ref(false);
 const saveMessage = ref('');
 
@@ -36,6 +37,7 @@ const fetchInstance = async () => {
     instance.value = response.data;
     newName.value = instance.value.name;
     webhookUrl.value = instance.value.webhookUrl || '';
+    webhookEvents.value = instance.value.webhookEvents || [];
   } catch (err) {
     if (err.response && err.response.status === 401) {
       router.push('/login');
@@ -105,7 +107,7 @@ const saveSettings = async () => {
     
     // Save Webhook
     await axios.post(`${import.meta.env.VITE_API_URL}/instance/webhook/${instance.value.name}`,
-       { webhookUrl: webhookUrl.value },
+       { webhookUrl: webhookUrl.value, webhookEvents: webhookEvents.value },
        { headers: { Authorization: `Bearer ${token}` }}
     );
     
@@ -267,9 +269,24 @@ onMounted(() => {
                    </div>
                    
                    <div>
-                      <label for="webhook" class="block text-sm font-medium leading-6 text-gray-900">Webhook URL (Receber mensagens)</label>
+                      <label for="webhook" class="block text-sm font-medium leading-6 text-gray-900">Webhook URL (Receber eventos)</label>
                       <div class="mt-2">
                          <input type="url" id="webhook" v-model="webhookUrl" placeholder="https://seu-sistema.com/webhook" class="block w-full rounded-lg border-0 py-2.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-whatsapp sm:text-sm sm:leading-6">
+                      </div>
+                   </div>
+                   
+                   <div class="pt-3">
+                      <label class="block text-sm font-medium leading-6 text-gray-900">Eventos do Webhook</label>
+                      <p class="text-xs text-gray-500 mb-3">Selecione quais eventos deseja receber na URL configurada acima.</p>
+                      <div class="mt-2 space-y-3 bg-gray-50 border border-gray-100 rounded-lg p-4">
+                         <div class="flex items-center gap-3">
+                            <input type="checkbox" id="ev-msg" value="messages.upsert" v-model="webhookEvents" class="h-4 w-4 rounded border-gray-300 text-whatsapp focus:ring-whatsapp">
+                            <label for="ev-msg" class="text-sm font-medium text-gray-700 cursor-pointer">Mensagens Recebidas <span class="text-xs text-gray-400 font-mono ml-1">(messages.upsert)</span></label>
+                         </div>
+                         <div class="flex items-center gap-3">
+                            <input type="checkbox" id="ev-conn" value="connection.update" v-model="webhookEvents" class="h-4 w-4 rounded border-gray-300 text-whatsapp focus:ring-whatsapp">
+                            <label for="ev-conn" class="text-sm font-medium text-gray-700 cursor-pointer">Status de Conexão <span class="text-xs text-gray-400 font-mono ml-1">(connection.update)</span></label>
+                         </div>
                       </div>
                    </div>
                    
