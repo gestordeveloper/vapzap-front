@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from '../layouts/AppLayout.vue'
+import DashboardLayout from '../layouts/DashboardLayout.vue'
 import Dashboard from '../views/Dashboard.vue'
+import Connections from '../views/Connections.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
@@ -18,10 +20,18 @@ const routes = [
   },
   { path: '/login', name: 'Login', component: Login },
   { path: '/register', name: 'Register', component: Register },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard, meta: { requiresAuth: true } },
-  { path: '/dashboard/instance/:name', name: 'InstanceDetails', component: InstanceDetails, meta: { requiresAuth: true } },
-  { path: '/dashboard/api', name: 'ApiDocs', component: ApiDocs, meta: { requiresAuth: true } },
-  { path: '/dashboard/profile', name: 'Profile', component: Profile, meta: { requiresAuth: true } }
+  {
+    path: '/dashboard',
+    component: DashboardLayout,
+    meta: { requiresAuth: true },
+    children: [
+      { path: '', name: 'Dashboard', component: Dashboard },
+      { path: 'connections', name: 'Connections', component: Connections },
+      { path: 'instance/:name', name: 'InstanceDetails', component: InstanceDetails },
+      { path: 'api', name: 'ApiDocs', component: ApiDocs },
+      { path: 'profile', name: 'Profile', component: Profile }
+    ]
+  }
 ]
 
 const router = createRouter({

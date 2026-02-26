@@ -7,15 +7,9 @@ const route = useRoute();
 const router = useRouter();
 const instanceNameParam = route.params.name;
 
-const user = ref({ name: 'Samuel', email: '' });
 const instance = ref(null);
 const loading = ref(true);
 const error = ref('');
-
-const handleLogout = () => {
-  localStorage.removeItem('vapzap_token');
-  router.push('/login');
-};
 
 // Connection state
 const qrCode = ref('');
@@ -152,40 +146,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col">
-    <!-- Header -->
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-          <!-- Logo -->
-          <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" @click="router.push('/dashboard')">
-            <img src="/logo.svg" alt="VapZap Logo" class="h-8 w-auto" />
-          </div>
-          <!-- Navigation & User -->
-          <div class="flex items-center gap-6">
-             <!-- Links -->
-             <div class="hidden sm:flex items-center gap-4 border-r border-gray-200 pr-6">
-                <button @click="router.push('/dashboard')" class="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Painel</button>
-                <button @click="router.push('/dashboard/api')" class="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Documentação API</button>
-             </div>
-             <!-- User Info -->
-             <div class="relative group">
-                <button class="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none">
-                  <span class="hidden sm:block">{{ user.name }}</span>
-                  <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <!-- Dropdown Menu -->
-                <div class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                   <div class="py-1">
-                      <button @click="router.push('/dashboard/profile')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">Meu Perfil</button>
-                      <button @click="handleLogout" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">Sair da conta</button>
-                   </div>
-                </div>
-             </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+  <div class="min-h-screen bg-transparent flex flex-col">
 
     <main class="flex-grow max-w-5xl mx-auto w-full py-8 px-4 sm:px-6 lg:px-8">
       

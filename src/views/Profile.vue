@@ -53,30 +53,8 @@ const copyToken = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col">
-    <!-- Header -->
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-          <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" @click="router.push('/dashboard')">
-            <img src="/logo.svg" alt="VapZap Logo" class="h-8 w-auto" />
-          </div>
-          <div class="flex items-center gap-6">
-             <!-- Navigation Links -->
-             <div class="hidden sm:flex items-center gap-4 border-r border-gray-200 pr-6">
-                <button @click="router.push('/dashboard')" class="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Painel</button>
-                <button @click="router.push('/dashboard/api')" class="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Documentação API</button>
-             </div>
-             <!-- User & Logout -->
-             <div class="flex items-center gap-4">
-               <span class="text-sm font-medium text-gray-900 hidden sm:block">{{ user.name }}</span>
-               <button @click="handleLogout" class="text-sm font-semibold text-red-600 hover:text-red-800 transition-colors bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md">Sair</button>
-             </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-
+  <div class="min-h-screen bg-transparent flex flex-col">
+    
     <main class="flex-grow max-w-4xl mx-auto w-full py-8 px-4 sm:px-6 lg:px-8">
       
       <!-- Voltar -->
