@@ -18,7 +18,7 @@ const handleLogout = () => {
 <template>
   <aside class="w-[260px] bg-[#fdfdfd] border-r border-gray-100 flex flex-col h-full shrink-0">
     <!-- Logo -->
-    <div class="h-[72px] flex items-center px-6 shrink-0 border-b border-gray-100">
+    <div class="h-[72px] flex items-center justify-center px-6 shrink-0 border-b border-gray-100">
       <img src="/logo.svg" alt="VapZap Logo" class="h-8 w-auto cursor-pointer" @click="$router.push('/dashboard')" />
     </div>
 
