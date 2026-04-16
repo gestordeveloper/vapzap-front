@@ -11,6 +11,7 @@ const agentName = ref('Agente IA');
 const objective = ref('');
 const processText = ref('');
 const observations = ref('');
+const isActive = ref(true);
 
 const loading = ref(true);
 const isSaving = ref(false);
@@ -29,6 +30,7 @@ const fetchAgent = async () => {
       objective.value = agent.objective || '';
       processText.value = agent.process || '';
       observations.value = agent.observations || '';
+      if (agent.isActive !== undefined) isActive.value = agent.isActive;
     }
   } catch (err) {
     if (err.response && err.response.status === 401) {
@@ -52,7 +54,8 @@ const saveAgent = async () => {
          agentName: agentName.value, 
          objective: objective.value,
          process: processText.value,
-         observations: observations.value 
+         observations: observations.value,
+         isActive: isActive.value
        },
        { headers: { Authorization: `Bearer ${token}` }}
     );
@@ -101,12 +104,24 @@ onMounted(() => {
       
       <div v-else class="space-y-8">
          <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div class="px-6 py-5 border-b border-gray-200 bg-gray-50/50">
-               <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                 <svg class="w-5 h-5 text-whatsapp" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                 Parâmetros do Agente
-               </h3>
-               <p class="text-sm text-gray-500 mt-1">Defina as diretrizes de prompt que serão utilizadas integradas ao RAG e n8n.</p>
+            <div class="px-6 py-5 border-b border-gray-200 bg-gray-50/50 flex justify-between items-center sm:flex-row flex-col sm:items-start text-center sm:text-left">
+               <div>
+                  <h3 class="text-lg font-semibold text-gray-900 flex items-center justify-center sm:justify-start gap-2">
+                    <svg class="w-5 h-5 text-whatsapp" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    Parâmetros do Agente
+                  </h3>
+                  <p class="text-sm text-gray-500 mt-1">Defina as diretrizes de prompt que serão utilizadas integradas ao RAG e n8n.</p>
+               </div>
+               <div class="mt-4 sm:mt-0 flex items-center">
+                  <button type="button" @click="isActive = !isActive" :class="isActive ? 'bg-whatsapp' : 'bg-gray-200'" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-whatsapp focus:ring-offset-2" role="switch" :aria-checked="isActive">
+                    <span class="sr-only">Ativar Agente</span>
+                    <span aria-hidden="true" :class="isActive ? 'translate-x-5' : 'translate-x-0'" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+                  </button>
+                  <span class="ml-3 text-sm font-medium text-gray-900 w-24 text-left" id="agent-active-label">
+                     <span v-if="isActive" class="text-green-600">Agente Ativo</span>
+                     <span v-else class="text-gray-500">Inativo</span>
+                  </span>
+               </div>
             </div>
             
             <div class="p-6 space-y-6 flex flex-col">
