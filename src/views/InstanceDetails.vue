@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
@@ -14,6 +14,7 @@ const error = ref('');
 // Connection state
 const qrCode = ref('');
 const isConnecting = ref(false);
+const isDisconnecting = ref(false);
 
 // Edit state
 const newName = ref('');
@@ -139,8 +140,20 @@ const disconnectInstance = async () => {
 
 
 
+let refreshInterval = null;
+
 onMounted(() => {
   fetchInstance();
+  refreshInterval = setInterval(() => {
+    // Only refresh if not actively loading or connecting
+    if (!isConnecting.value && !isDisconnecting.value && !isSaving.value) {
+      fetchInstance();
+    }
+  }, 5000);
+});
+
+onUnmounted(() => {
+  if (refreshInterval) clearInterval(refreshInterval);
 });
 
 </script>
@@ -183,8 +196,8 @@ onMounted(() => {
             </span>
           </div>
           
-          <!-- Disconnect Button Header -->
-          <div v-if="instance.status === 'CONNECTED'" class="flex mt-4 md:mt-0">
+          <!-- Actions Header -->
+          <div v-if="instance.status === 'CONNECTED'" class="flex mt-4 md:mt-0 gap-3">
              <button @click="disconnectInstance" :disabled="isDisconnecting" class="inline-flex justify-center items-center rounded-lg bg-white px-4 py-2 text-sm font-semibold text-red-600 ring-1 ring-inset ring-gray-200 shadow-sm hover:bg-red-50 disabled:opacity-50 transition-colors">
                 <span v-if="isDisconnecting" class="flex items-center gap-2">
                    <svg class="animate-spin h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>

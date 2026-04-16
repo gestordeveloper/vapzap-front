@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
@@ -13,8 +13,8 @@ const newInstanceName = ref('');
 const isCreating = ref(false);
 const createError = ref('');
 
-const fetchInstances = async () => {
-  loading.value = true;
+const fetchInstances = async (silent = false) => {
+  if (!silent) loading.value = true;
   try {
     const token = localStorage.getItem('vapzap_token');
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/instance/`, {
@@ -27,7 +27,7 @@ const fetchInstances = async () => {
       router.push('/login');
     }
   } finally {
-    loading.value = false;
+    if (!silent) loading.value = false;
   }
 };
 
@@ -68,7 +68,19 @@ const deleteInstance = async (instanceName) => {
   }
 };
 
-onMounted(() => fetchInstances());
+let refreshInterval = null;
+
+onMounted(() => {
+  fetchInstances();
+  refreshInterval = setInterval(() => {
+    // Silent fetch
+    fetchInstances(true);
+  }, 5000);
+});
+
+onUnmounted(() => {
+  if (refreshInterval) clearInterval(refreshInterval);
+});
 </script>
 
 <template>

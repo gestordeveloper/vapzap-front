@@ -7,6 +7,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
 import InstanceDetails from '../views/InstanceDetails.vue'
+import Chats from '../views/Chats.vue'
 import ApiDocs from '../views/ApiDocs.vue'
 import Profile from '../views/Profile.vue'
 
@@ -28,6 +29,8 @@ const routes = [
       { path: '', name: 'Dashboard', component: Dashboard },
       { path: 'connections', name: 'Connections', component: Connections },
       { path: 'instance/:name', name: 'InstanceDetails', component: InstanceDetails },
+      { path: 'instance/:name/chats', name: 'InstanceChats', component: Chats }, // Keep old nested view just in case
+      { path: 'chats', name: 'GlobalChats', component: Chats }, // Global view
       { path: 'api', name: 'ApiDocs', component: ApiDocs },
       { path: 'profile', name: 'Profile', component: Profile }
     ]

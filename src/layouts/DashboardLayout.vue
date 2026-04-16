@@ -52,10 +52,10 @@ const showTopbar = computed(() => {
       </header>
 
       <!-- Page Content -->
-      <main class="flex-1 overflow-y-auto p-6 md:p-10">
-        <div :class="route.name === 'Dashboard' ? 'max-w-5xl mx-auto' : 'max-w-[1400px] mx-auto'">
-           <router-view />
-        </div>
+      <main :class="['flex-1 overflow-y-auto relative', route.name === 'GlobalChats' || route.name === 'InstanceChats' ? 'p-0' : 'p-6 md:p-10']">
+         <div :class="route.name === 'Dashboard' ? 'max-w-5xl mx-auto' : route.name === 'GlobalChats' || route.name === 'InstanceChats' ? 'h-full' : 'max-w-[1400px] mx-auto'">
+            <router-view />
+         </div>
       </main>
     </div>
   </div>
