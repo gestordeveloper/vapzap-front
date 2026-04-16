@@ -197,8 +197,14 @@ onUnmounted(() => {
           </div>
           
           <!-- Actions Header -->
-          <div v-if="instance.status === 'CONNECTED'" class="flex mt-4 md:mt-0 gap-3">
-             <button @click="disconnectInstance" :disabled="isDisconnecting" class="inline-flex justify-center items-center rounded-lg bg-white px-4 py-2 text-sm font-semibold text-red-600 ring-1 ring-inset ring-gray-200 shadow-sm hover:bg-red-50 disabled:opacity-50 transition-colors">
+          <div class="flex mt-4 md:mt-0 gap-3">
+             <button @click="router.push(`/dashboard/instance/${instance.name}/agent`)" class="inline-flex justify-center items-center rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 transition-colors">
+                <span class="flex items-center gap-2">
+                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                   Configurar Agente
+                </span>
+             </button>
+             <button v-if="instance.status === 'CONNECTED'" @click="disconnectInstance" :disabled="isDisconnecting" class="inline-flex justify-center items-center rounded-lg bg-white px-4 py-2 text-sm font-semibold text-red-600 ring-1 ring-inset ring-gray-200 shadow-sm hover:bg-red-50 disabled:opacity-50 transition-colors">
                 <span v-if="isDisconnecting" class="flex items-center gap-2">
                    <svg class="animate-spin h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                    Desconectando...
@@ -292,6 +298,10 @@ onUnmounted(() => {
                          <div class="flex items-center gap-3">
                             <input type="checkbox" id="ev-conn" value="connection.update" v-model="webhookEvents" class="h-4 w-4 rounded border-gray-300 text-whatsapp focus:ring-whatsapp">
                             <label for="ev-conn" class="text-sm font-medium text-gray-700 cursor-pointer">Status de Conexão <span class="text-xs text-gray-400 font-mono ml-1">(connection.update)</span></label>
+                         </div>
+                         <div class="flex items-center gap-3 mt-2 pt-2 border-t border-gray-200">
+                            <input type="checkbox" id="ev-agente" value="send_agent_data" v-model="webhookEvents" class="h-4 w-4 rounded border-gray-300 text-whatsapp focus:ring-whatsapp">
+                            <label for="ev-agente" class="text-sm font-medium text-gray-700 cursor-pointer">Enviar Configuração do Agente e Conexão <span class="text-xs text-gray-400 font-mono ml-1">(Modificador)</span></label>
                          </div>
                       </div>
                    </div>

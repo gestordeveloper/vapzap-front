@@ -10,6 +10,7 @@ import InstanceDetails from '../views/InstanceDetails.vue'
 import Chats from '../views/Chats.vue'
 import ApiDocs from '../views/ApiDocs.vue'
 import Profile from '../views/Profile.vue'
+import AgentConfig from '../views/AgentConfig.vue'
 
 const routes = [
   {
@@ -29,6 +30,7 @@ const routes = [
       { path: '', name: 'Dashboard', component: Dashboard },
       { path: 'connections', name: 'Connections', component: Connections },
       { path: 'instance/:name', name: 'InstanceDetails', component: InstanceDetails },
+      { path: 'instance/:name/agent', name: 'InstanceAgent', component: AgentConfig },
       { path: 'instance/:name/chats', name: 'InstanceChats', component: Chats }, // Keep old nested view just in case
       { path: 'chats', name: 'GlobalChats', component: Chats }, // Global view
       { path: 'api', name: 'ApiDocs', component: ApiDocs },
