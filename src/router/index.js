@@ -33,9 +33,14 @@ const routes = [
       { path: 'instance/:name/agent', name: 'InstanceAgent', component: AgentConfig },
       { path: 'instance/:name/chats', name: 'InstanceChats', component: Chats }, // Keep old nested view just in case
       { path: 'chats', name: 'GlobalChats', component: Chats }, // Global view
-      { path: 'api', name: 'ApiDocs', component: ApiDocs },
       { path: 'profile', name: 'Profile', component: Profile }
     ]
+  },
+  { 
+    path: '/dashboard/api', 
+    name: 'ApiDocs', 
+    component: ApiDocs,
+    meta: { requiresAuth: true }
   }
 ]
 
