@@ -23,16 +23,23 @@ const webhookEvents = ref([]);
 const isSaving = ref(false);
 const saveMessage = ref('');
 
-const fetchInstance = async () => {
+const fetchInstance = async (isBackgroundRefresh = false) => {
   try {
     const token = localStorage.getItem('vapzap_token');
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/instance/${instanceNameParam}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     instance.value = response.data;
-    newName.value = instance.value.name;
-    webhookUrl.value = instance.value.webhookUrl || '';
-    webhookEvents.value = instance.value.webhookEvents || [];
+    
+    if (instance.value.status === 'CONNECTED' && qrCode.value) {
+      qrCode.value = '';
+    }
+    
+    if (!isBackgroundRefresh) {
+      newName.value = instance.value.name;
+      webhookUrl.value = instance.value.webhookUrl || '';
+      webhookEvents.value = instance.value.webhookEvents || [];
+    }
   } catch (err) {
     if (err.response && err.response.status === 401) {
       router.push('/login');
@@ -73,7 +80,7 @@ const generateQrCode = async () => {
     }
     
     // Also update instance status if needed
-    await fetchInstance();
+    await fetchInstance(true);
   } catch (err) {
     console.error('Failed to generate QR Code', err);
     alert('Erro ao gerar QR Code.');
@@ -108,7 +115,7 @@ const saveSettings = async () => {
     
     saveMessage.value = 'Configurações salvas com sucesso!';
     setTimeout(() => saveMessage.value = '', 3000);
-    await fetchInstance();
+    await fetchInstance(false);
   } catch (err) {
     console.error('Failed to save settings', err);
     saveMessage.value = 'Erro ao salvar configurações.';
@@ -129,7 +136,7 @@ const disconnectInstance = async () => {
     });
     
     // Refresh to show disconnected state
-    await fetchInstance();
+    await fetchInstance(true);
   } catch (err) {
     console.error('Failed to disconnect instance', err);
     alert('Erro ao desconectar a instância. Tente novamente.');
@@ -143,11 +150,11 @@ const disconnectInstance = async () => {
 let refreshInterval = null;
 
 onMounted(() => {
-  fetchInstance();
+  fetchInstance(false);
   refreshInterval = setInterval(() => {
     // Only refresh if not actively loading or connecting
     if (!isConnecting.value && !isDisconnecting.value && !isSaving.value) {
-      fetchInstance();
+      fetchInstance(true);
     }
   }, 5000);
 });
